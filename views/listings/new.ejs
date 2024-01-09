@@ -1,0 +1,58 @@
+<% layout('/layouts/boilerplate') -%>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3 style="padding-top:0.5rem;">Create a new listing</h3>
+            <form action="/listings/new" method="POST" class="col needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Add a catchy title" required>
+                  <div class="invalid-feedback">Title should be valid</div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Description should be short and valid</div>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image" required>
+                    <div class="invalid-feedback">Please upload an image</div>
+                </div>
+        <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" min="1" class="form-control" id="price" name="price" placeholder="1200" required>
+                    <div class="invalid-feedback">Price should be valid</div>
+                </div>
+
+                <div class="mb-3 col-md-8">
+                    <label for="category" class="form-label">Select Category</label>
+                    <select class="form-select" aria-label="Default select example" name="category" id="category">
+                        <option value="Trending">Trending</option>
+                        <option value="Farms">Farms</option>
+                        <option value="Beaches">Beaches</option>
+                        <option value="Tiny Homes">Tiny Homes</option>
+                        <option value="Amazing Pools">Amazing Pools</option>
+                        <option value="Camping">Camping</option>
+                        <option value="Mountains">Mountains</option>
+                        <option value="Castles">Castles</option>
+                        <option value="Iconic Cities">Iconic Cities</option>
+                      </select>
+                </div>
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" class="form-control" id="country" name="country" placeholder="India/United States" required>
+            <div class="invalid-feedback">Country should be valid</div>
+        </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="loaction" name="location" placeholder="Jaipur/Rajasthan" required>
+                    <div class="invalid-feedback">Location should be valid</div>
+                </div>
+            <button type="submit" class="btn btn-primary mb-3">Add</button>
+      </form>
+    </div>
+    </div>
+</body>

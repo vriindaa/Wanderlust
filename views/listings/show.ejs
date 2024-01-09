@@ -1,0 +1,108 @@
+<% layout('/layouts/boilerplate') -%>
+<body>
+    <div class="row show-card">
+        <div class="col-6">
+        <h3 id="listing"><%=list.title%></h3>
+    <div class="card show-col-card">
+        
+        <img src="<%=list.image.url%>" class="card-img-top show-img" alt="listing image">
+        <div class="card-body show-card-body">
+          <p class="card-text">
+            <p>Owned by @<i><%=list.owner.username%></i></p>
+             <ul>
+               <li><%=list.description%></li>
+               <li>&#8377 <%=list.price.toLocaleString("en-IN")%> / night</li>
+               <li><%=list.country%></li>
+               <li><%=list.location%></li>
+          </ul>
+        </p>
+        <% if(currUser && currUser._id.equals(list.owner._id)){%>
+          <a href="/listings/<%=list._id%>/edit" class="btn show-btn btn-primary">Edit</a>
+          <form action="/listings/<%=list._id%>?_method=DELETE" method="post" class="del-listing-btn">
+            <button class="btn delete-btn show-btn ">Delete</button>
+          </form>
+        <% }else{%>
+          <!-- to have disabled button -->
+          <a href="/listings/<%=list._id%>/edit" class="btn show-btn btn-primary disabled" >Edit</a>
+          <form action="/listings/<%=list._id%>?_method=DELETE" method="post" class="del-listing-btn">
+            <button class="btn delete-btn show-btn " disabled>Delete</button>
+          </form>
+        <%} %>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<section class="sep-section">
+<hr>
+<div class="row">
+  <div class="col-6 offset-3">
+    <p class="review-heading"><b>Leave a Review : </b></p>
+    <form action="/listings/<%=list._id%>/reviews" novalidate class="needs-validation" method="post">
+       <label for="rating" class="form-label">Rating</label>
+    <fieldset class="starability-slot">
+        <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+        <input type="radio" id="first-rate1" name="rating" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="rating" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="rating" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="rating" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="rating" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+       <label for="comment" class="form-label">Comment</label>
+        <textarea name="comment" id="comment" cols="30" rows="2" class="form-control" required></textarea>
+        <div class="invalid-feedback">Please enter a comment</div>
+        <button  class="btn show-btn btn-primary">Submit</button>
+    </form>
+    
+  </div>
+</div>
+</section>
+
+<%if(list.reviews.length>0){%>
+<section class="sep-section">
+<hr>
+<p class="review-heading"><b>All Reviews :</b></p>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 review-box">
+  <%for (let review of list.reviews){%>
+  <div class="card col review-card" style="width: 25.5rem;">
+    <div class="card-body review-card-body">
+      <h5 class="card-title">@<i><%=review.author.username%></i></h5>
+      <p class="starability-result card-subtitle mb-2 text-body-secondary" data-rating="<%=review.rating%>">
+      </p>
+      <p class="card-text"><%=review.comment%></p>
+    </div>
+    <%if(currUser && currUser._id.equals(review.author._id)){%>
+    <form action="/listings/<%=list._id%>/reviews/<%=review._id%>?_method=DELETE" method="post">
+      <button class="btn delete-btn show-btn mb-3">Delete</button>
+    </form>
+  <%}else{%>
+    <!-- to have disabled button -->
+    <form action="/listings/<%=list._id%>/reviews/<%=review._id%>?_method=DELETE" method="post">
+      <button class="btn delete-btn show-btn mb-3" disabled>Delete</button>
+    </form>
+    <% } %>
+  </div>
+  <%}%>
+</div>
+</section>
+<% } %>
+
+<div class="row">
+  <hr>
+   <div class="col-6 offset-3">
+     <h3 class="review-heading">Where You'll Be</h3>
+     <div id="map"></div>
+   </div>
+</div>
+<script>
+  let mapToken = "<%=process.env.MAP_TOKEN%>";
+  let coordinates = <%-JSON.stringify(list.geometry.coordinates)%>;
+</script>
+</body>
+
